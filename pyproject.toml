@@ -1,0 +1,45 @@
+[project]
+name = "quantum-grokking"
+version = "0.1.0"
+description = "Investigation into Quantum Grokking"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "aiohttp>=3.13.3",
+    "dotenv>=0.9.9",
+    "fsspec>=2026.2.0",
+    "h5py>=3.15.1",
+    "jax",
+    "jax[cuda12]>=0.6.2; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "matplotlib>=3.10.8",
+    "numpy>=2.2.6",
+    "optax>=0.2.7",
+    "pennylane>=0.42.3",
+    "wandb>=0.25.1",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  # Use CUDA version on Linux and Windows
+  { index = "pytorch-cu121", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+  # Use CPU version on macOS (darwin)
+  { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "jupytext>=1.19.1",
+    "nbconvert>=7.17.0",
+    "rich>=14.3.3",
+]
